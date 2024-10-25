@@ -24,46 +24,46 @@ contract Collection is ERC721URIStorage, Ownable {
     // Fonction pour convertir un uint256 en string
     function toString(uint256 value) internal pure returns (string memory) {
         if (value == 0) {
-           return "0"; // Si la valeur est 0, retourne "0"
+           return "0"; 
         }
         uint256 temp = value;
-        uint256 digits; // Compte le nombre de chiffres de la valeur
+        uint256 digits; 
         while (temp != 0) {
             digits++;
             temp /= 10;
         }
-        bytes memory buffer = new bytes(digits); // Crée un tableau de bytes pour chaque chiffre
+        bytes memory buffer = new bytes(digits); 
         while (value != 0) {
             digits = digits - 1;
-            buffer[digits] = bytes1(uint8(48 + uint256(value % 10))); // Stocke chaque chiffre en ASCII
+            buffer[digits] = bytes1(uint8(48 + uint256(value % 10))); 
             value /= 10;
         }
-        return string(buffer); // Retourne le nombre sous forme de string
+        return string(buffer); 
     }
 
     // Fonction pour créer une carte avec un numéro spécifique
     function mintCard(address to, uint256 tokenId, uint256 _cardNumber, string memory imgUri) public onlyOwner {
-        _mint(to, tokenId); // Crée le NFT et l’assigne à l'adresse 'to'
-        _setTokenURI(tokenId, imgUri); // Associe l'URI de l'image à l'identifiant du token
-        string memory metadataUri = string(abi.encodePacked(imgUri)); // Crée une chaîne de métadonnées
-        _setTokenURI(tokenId, metadataUri); // Associe les métadonnées au token
-        cardNumber[tokenId] = _cardNumber; // Associe le numéro de carte au tokenId dans le mappage
+        _mint(to, tokenId); 
+        _setTokenURI(tokenId, imgUri); 
+        string memory metadataUri = string(abi.encodePacked(imgUri)); 
+        _setTokenURI(tokenId, metadataUri); 
+        cardNumber[tokenId] = _cardNumber; 
     }
     
     //  Stocker les informations du NFT
     struct NFTInfo {
-        address owner;       // Propriétaire de la carte
-        uint256 cardNumber;  // Numéro de la carte
-        string imgUri;       // URI de l'image de la carte
+        address owner;       
+        uint256 cardNumber;  
+        string imgUri;       
     }
 
     // Rrécupérer les informations d'une carte en fonction de son identifiant (tokenId)
     function getCardInfo(uint256 tokenId) public view returns (NFTInfo memory) {
-        require(_exists(tokenId), "Token does not exist"); // Vérifie si le token existe
+        require(_exists(tokenId), "Token does not exist"); 
         return NFTInfo({
-            owner: ownerOf(tokenId),             // Récupère le propriétaire de la carte
-            cardNumber: cardNumber[tokenId],     // Récupère le numéro de la carte
-            imgUri: tokenURI(tokenId)            // Récupère l'URI de l'image
+            owner: ownerOf(tokenId),             
+            cardNumber: cardNumber[tokenId],     
+            imgUri: tokenURI(tokenId)            
         });
     }
 }
